@@ -48,6 +48,11 @@
   var prev = '';
 
   /**
+   * オプション
+   */
+  var options = {};
+
+  /**
    * キャッシュ用
    * 一度取得した住所JSONデータは郵便番号上3桁でキャッシュする
    */
@@ -75,14 +80,22 @@
    *
    * @param object options オプション
    */
-  $.fn.zip2addr = function(options) {
+  $.fn.zip2addr = function(opt) {
     // オプションを取得
-    var options = $.extend({}, $.fn.zip2addr.defaultOptions, options);
+    options = $.extend({}, $.fn.zip2addr.defaultOptions, opt);
 
     // 郵便番号を取得
     zip = '';
     this.each(function() { zip += $(this).val(); });
     zip  = zip.replace(/[^0-9]/g, '');
+
+    // 郵便番号が7桁に足りなかったら処理しない
+    if (zip.length < 7) {
+      options.error.call(this);
+      return this;
+    }
+
+    // 郵便番号の上3桁を取り出す
     zip3 = zip.substr(0, 3);
 
     // 住所をセットする先の要素を取得
@@ -126,6 +139,7 @@
   {
     // 住所データがみつからなければ何もしない
     if (!data) {
+      options.error.call(this);
       return;
     }
 
@@ -142,6 +156,7 @@
 
     // 該当の郵便番号のデータがなければここで終了
     if (!address) {
+      options.error.call(this);
       return;
     }
 
@@ -216,6 +231,8 @@
     prev += cityElement   ? cityElement.val()   : '';
     prev += areaElement   ? areaElement.val()   : '';
     prev += streetElement ? streetElement.val() : '';
+
+    options.success.call(this, prefId, prefName, city, area, street);
   };
 
   /**
@@ -241,6 +258,14 @@
     /**
      * 番地をセットする要素を指定
      */
-    street: '#street'
+    street: '#street',
+    /**
+     * 郵便番号から住所データが見つかった時のコールバックを指定
+     */
+    success: function() {},
+    /**
+     * 郵便番号から住所データが見つからなかった時のコールバックを指定
+     */
+    error: function() {}
   };
 })(jQuery);

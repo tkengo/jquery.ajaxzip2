@@ -99,17 +99,17 @@
     zip3 = zip.substr(0, 3);
 
     // 住所をセットする先の要素を取得
-    prefElement   = options.pref   ? $(options.pref)   : null;
-    cityElement   = options.city   ? $(options.city)   : null;
-    areaElement   = options.area   ? $(options.area)   : null;
-    streetElement = options.street ? $(options.street) : null;
+    prefElement   = $(options.pref);
+    cityElement   = $(options.city);
+    areaElement   = $(options.area);
+    streetElement = $(options.street);
 
     // フォームの値が前回と同じであればここでキャンセル
     var uniq = zip;
-    uniq += prefElement   ? prefElement.val()   : '';
-    uniq += cityElement   ? cityElement.val()   : '';
-    uniq += areaElement   ? areaElement.val()   : '';
-    uniq += streetElement ? streetElement.val() : '';
+    uniq += prefElement   && prefElement.length   > 0 ? prefElement.val()   : '';
+    uniq += cityElement   && cityElement.length   > 0 ? cityElement.val()   : '';
+    uniq += areaElement   && areaElement.length   > 0 ? areaElement.val()   : '';
+    uniq += streetElement && streetElement.length > 0 ? streetElement.val() : '';
     if (prev == uniq) {
       return this;
     }
@@ -171,13 +171,13 @@
     var focusElement = null;
 
     // 各要素の値の初期化
-    if (prefElement)   prefElement.val('');
-    if (cityElement)   cityElement.val('');
-    if (areaElement)   areaElement.val('');
-    if (streetElement) streetElement.val('');
+    if (prefElement   && prefElement.length   > 0)   prefElement.val('');
+    if (cityElement   && cityElement.length   > 0)   cityElement.val('');
+    if (areaElement   && areaElement.length   > 0)   areaElement.val('');
+    if (streetElement && streetElement.length > 0) streetElement.val('');
 
     // 都道府県フォームに値をセット
-    if (prefElement) {
+    if (prefElement && prefElement.length > 0) {
       focusElement = prefElement;
       var dom = prefElement.get(0);
 
@@ -201,19 +201,19 @@
     }
 
     // 市区町村フォームに値をセット
-    if (cityElement) {
+    if (cityElement && cityElement.length > 0) {
       focusElement = cityElement;
       cityElement.val(cityElement.val() + city);
     }
 
     // 町域フォームに値をセット
-    if (areaElement) {
+    if (areaElement && areaElement.length > 0) {
       focusElement = areaElement;
       areaElement.val(areaElement.val() + area);
     }
 
     // 番地フォームに値をセット
-    if (streetElement) {
+    if (streetElement && streetElement.length > 0) {
       focusElement = streetElement;
       streetElement.val(streetElement.val() + street);
     }
@@ -227,10 +227,10 @@
     // 今回のデータを保存
     // 次回処理時に比較して同じ値であれば処理をしないようにする
     prev = zip;
-    prev += prefElement   ? prefElement.val()   : '';
-    prev += cityElement   ? cityElement.val()   : '';
-    prev += areaElement   ? areaElement.val()   : '';
-    prev += streetElement ? streetElement.val() : '';
+    prev += prefElement   && prefElement.length   > 0 ? prefElement.val()   : '';
+    prev += cityElement   && cityElement.length   > 0 ? cityElement.val()   : '';
+    prev += areaElement   && areaElement.length   > 0 ? areaElement.val()   : '';
+    prev += streetElement && streetElement.length > 0 ? streetElement.val() : '';
 
     options.success.call(this, prefId, prefName, city, area, street);
   };

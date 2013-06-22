@@ -26,7 +26,7 @@
     OTHER DEALINGS IN THE SOFTWARE.
 * ================================================================ */
 ;(function($) {
-  var VERSION = '0.1';
+  var VERSION = '1.0';
 
   /**
    * 郵便番号

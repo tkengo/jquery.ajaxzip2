@@ -236,7 +236,7 @@
   function set(element, value)
   {
     if (element && element.length > 0) {
-      if (element.is(':text')) {
+      if (element.is(':text') || element.is('select')) {
         element.val(value);
       } else {
         element.text(value);
@@ -247,7 +247,7 @@
   function get(element)
   {
     if (element && element.length > 0) {
-      if (element.is(':text')) {
+      if (element.is(':text') || element.is('select')) {
         return element.val();
       } else {
         return element.text();

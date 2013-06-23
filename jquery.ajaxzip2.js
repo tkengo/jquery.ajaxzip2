@@ -186,17 +186,16 @@
 
       // 都道府県がセレクトボックスの場合は同じ値を見つけてそれを選択済みにする
       // テキストボックスの場合はそのまま値をセットする
-      if ($.inArray(dom.type, [ 'select-one', 'select-multiple' ]) > -1) {
-        var list = dom.options;
-        for (var i = 0; i < list.length; i++) {
-            var value = list[i].value;
-            var text  = list[i].text;
+      if (prefElement.is('select')) {
+        prefElement.children('option').each(function() {
+          var value = $(this).val();
+          var text  = $(this).text();
 
-            if (value == prefId || value == prefName || text == prefName) {
-              list[i].selected = true;
-              break;
-            }
-        }
+          if (value == prefId || value == prefName || text == prefName) {
+            prefElement.val(value);
+            return false;
+          }
+        });
       }
       else {
         set(prefElement, get(prefElement) + prefName);

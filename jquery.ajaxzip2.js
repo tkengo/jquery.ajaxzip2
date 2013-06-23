@@ -182,7 +182,6 @@
     // 都道府県フォームに値をセット
     if (prefElement && prefElement.length > 0) {
       focusElement = prefElement;
-      var dom = prefElement.get(0);
 
       // 都道府県がセレクトボックスの場合は同じ値を見つけてそれを選択済みにする
       // テキストボックスの場合はそのまま値をセットする

@@ -263,7 +263,7 @@
     /**
      * 住所JSONデータがあるパスを指定
      */
-    path: 'ajaxzip2/data/',
+    path: '/ajaxzip2/data/',
     /**
      * 都道府県をセットする要素を指定
      */

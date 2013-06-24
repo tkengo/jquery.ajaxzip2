@@ -92,6 +92,19 @@ $(document).ready(function() {
     });
   });
 
+  test('郵便番号が見つかったコールバック関数でfalseを返す', function() {
+    $('#pref, #city, #area, #street').val('empty');
+    $('#zip').val('0050000').zip2addr({
+      success: function() {
+        return false;
+      }
+    });
+    equal($('#pref').  val(), 'empty', '都道府県が補完されていない');
+    equal($('#city').  val(), 'empty', '市区町村が補完されていない');
+    equal($('#area').  val(), 'empty', '町域が補完されていない');
+    equal($('#street').val(), 'empty', '番地が補完されていない');
+  });
+
   module('郵便番号が正しくない場合の処理');
 
   test('郵便番号が7桁に満たない', function() {

@@ -170,6 +170,12 @@
     var area     = address[2] || '';
     var street   = address[3] || '';
 
+    // コールバック関数の呼び出し
+    // falseが返れば後の処理はしない
+    if (options.success.call(this, prefId, prefName, city, area, street) === false) {
+      return;
+    }
+
     // 最後にフォーカスする要素
     var focusElement = null;
 
@@ -228,7 +234,6 @@
     // 今回のデータを保存
     // 次回処理時に比較して同じ値であれば処理をしないようにする
     prev = zip + get(prefElement) + get(cityElement) + get(areaElement) + get(streetElement);
-    options.success.call(this, prefId, prefName, city, area, street);
   }
 
   function set(element, value)

@@ -31,7 +31,7 @@ $('郵便番号要素のセレクタ').zip2addr(オプション);
 | city         | 市区町村をセットするjQuery要素またはIDを指定します。 | `#city`           |
 | area         | 町域をセットするjQuery要素またはIDを指定します。     | `#area`           |
 | street       | 番地をセットするjQuery要素またはIDを指定します。     | `#street`         |
-| success      | 住所が見つかった時のコールバック関数を指定します。<br/>コールバック関数は以下の引数を受け取ります。<br/>`function successCallback(prefId, prefName, city, area, street)`<br/><br/>`prefId` 都道府県ID<br/>`prefName` 都道府県名<br/>`city` 市区町村<br/>`area` 町域<br/>`street` 番地 | 空の関数 |
+| success      | 住所が見つかった時のコールバック関数を指定します。<br/>コールバック関数は以下の引数を受け取ります。<br/>`function successCallback(prefId, prefName, city, area, street)`<br/><br/>`prefId` 都道府県ID<br/>`prefName` 都道府県名<br/>`city` 市区町村<br/>`area` 町域<br/>`street` 番地<br/><br/>このコールバック関数で `false` を返した場合、住所補完の処理をキャンセルします。 | 空の関数 |
 | error        | 住所が見つからなかった時のコールバック関数を指定します。<br/>コールバック関数の引数はありません。 | 空の関数 |
 
 # ライセンス

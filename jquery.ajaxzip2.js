@@ -127,12 +127,39 @@
       jsonLoadSuccessCallback(data);
     }
     else {
-      var url = options.path + 'zip-' + zip3 + '.json';
-      $.getJSON(url, jsonLoadSuccessCallback);
+      if (options.url) {
+        window.zip2addr = _zip2addr;
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src  = options.url.replace('%ZIP%', zip3);
+        script.charset = 'UTF-8';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(script, s);
+      }
+      else {
+        var url = options.path + 'zip-' + zip3 + '.json';
+        $.getJSON(url, zip2addr);
+      }
     }
 
     return this;
   };
+
+  /**
+   * JSONP形式のコールバック関数
+   *
+   * @param array data 住所データ
+   */
+  function _zip2addr(data)
+  {
+    // ユーザー定義コールバック関数の呼び出し
+    if (typeof options.callback == 'function') {
+      data = options.callback(data);
+    }
+
+    // 補完処理
+    jsonLoadSuccessCallback(data);
+  }
 
   /**
    * 住所JSONデータのロードが完了した時のコールバック処理を行います。
@@ -164,6 +191,16 @@
     if (!address) {
       options.error.call(this);
       return;
+    }
+
+    // 都道府県がIDではなく名前の場合はIDに変換する
+    if (typeof address[0] == 'string') {
+      for (var i in PREFMAP) {
+        if (PREFMAP[i] == address[0]) {
+          address[0] = i;
+          break;
+        }
+      }
     }
 
     // 住所の各データを取り出し
@@ -267,6 +304,10 @@
    * オプション
    */
   $.fn.zip2addr.defaultOptions = {
+    /**
+     * 郵便番号から住所を取得できるURLを指定
+     */
+    url: '',
     /**
      * 住所JSONデータがあるパスを指定
      */

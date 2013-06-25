@@ -1,5 +1,8 @@
 /* ================================================================ *
-    ajaxzip2.js ---- AjaxZip2 郵便番号→住所変換ライブラリ
+    jquery.ajaxzip2.js ---- 郵便番号→住所変換jQueryプラグイン
+
+    Copyright (c) 2013 Kengo Tateishi
+    https://github.com/tkengo/jquery.ajaxzip2/
 
     Copyright (c) 2006-2007 Kawasaki Yusuke <u-suke [at] kawa.net>
     http://www.kawa.net/works/ajax/ajaxzip2/ajaxzip2.html

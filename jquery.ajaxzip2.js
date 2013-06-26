@@ -35,7 +35,6 @@
    * 郵便番号
    */
   var zip  = '';
-  var zip3 = '';
 
   /**
    * 住所要素
@@ -54,6 +53,11 @@
    * オプション
    */
   var options = {};
+
+  /**
+   * 住所データをキャッシュする郵便番号の桁数
+   */
+  var cacheDigit = 3;
 
   /**
    * キャッシュ用
@@ -105,9 +109,6 @@
       return this;
     }
 
-    // 郵便番号の上3桁を取り出す
-    zip3 = zip.substr(0, 3);
-
     // 住所をセットする先の要素を取得
     prefElement   = $(options.pref);
     cityElement   = $(options.city);
@@ -120,25 +121,42 @@
       return this;
     }
 
-    // 郵便番号上位3桁でキャッシュがあるかどうかをチェックして
+    // 郵便番号の上3桁を取り出す
+    var zip3 = zip.substr(0, 3);
+
+    // URLに郵便番号が含まれていれば置換する
+    if (options.path.indexOf('%ZIP7%') > -1) {
+      options.path = options.path.replace('%ZIP7%', zip);
+      cacheDigit = 7;
+    }
+    else if (options.path.indexOf('%ZIP%') > -1) {
+      options.path = options.path.replace('%ZIP%', zip3);
+      cacheDigit = 3;
+    }
+    else {
+      options.path = options.path + 'zip-' + zip3 + '.json';
+      cacheDigit = 3;
+    }
+
+    // 郵便番号でキャッシュがあるかどうかをチェックして
     // キャッシュがあればキャッシュから、なければJSONを取得する
-    var data = CACHE[zip3];
+    var data = CACHE[zip.substr(0, cacheDigit)];
     if (data) {
       jsonLoadSuccessCallback(data);
     }
     else {
-      if (options.url) {
-        window.zip2addr = _zip2addr;
+      window[options.name] = _zip2addr;
+
+      if (options.type == 'jsonp') {
         var script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src  = options.url.replace('%ZIP%', zip3);
-        script.charset = 'UTF-8';
+        script.src  = options.path;
+        script.charset = options.charset;
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(script, s);
       }
-      else {
-        var url = options.path + 'zip-' + zip3 + '.json';
-        $.getJSON(url, zip2addr);
+      else if (options.type == 'json') {
+        $.getJSON(options.path, window[options.name]);
       }
     }
 
@@ -146,7 +164,7 @@
   };
 
   /**
-   * JSONP形式のコールバック関数
+   * 住所検索後のコールバック関数
    *
    * @param array data 住所データ
    */
@@ -177,7 +195,7 @@
     }
 
     // 取得できた住所データはキャッシュしておく
-    CACHE[zip3] = data;
+    CACHE[zip.substr(0, cacheDigit)] = data;
 
     // 該当の郵便番号の住所データを取得
     // Opera バグ対策：0x00800000 を超える添字は +0xff000000 されてしまう
@@ -305,13 +323,21 @@
    */
   $.fn.zip2addr.defaultOptions = {
     /**
-     * 郵便番号から住所を取得できるURLを指定
-     */
-    url: '',
-    /**
      * 住所JSONデータがあるパスを指定
      */
     path: '/ajaxzip2/data/',
+    /**
+     * 住所データの種別を指定
+     */
+    type: 'json',
+    /**
+     * JSONPで読み込む時の住所データの文字コードを指定
+     */
+    charset: 'UTF-8',
+    /**
+     * JSONPのコールバック関数名を指定
+     */
+    name: 'zip2addr',
     /**
      * 都道府県をセットする要素を指定
      */
@@ -335,6 +361,10 @@
     /**
      * 郵便番号から住所データが見つからなかった時のコールバックを指定
      */
-    error: function() {}
+    error: function() {},
+    /**
+     * 住所データロード時に呼ばれるコールバック関数を指定
+     */
+    callback: null
   };
 })(jQuery);

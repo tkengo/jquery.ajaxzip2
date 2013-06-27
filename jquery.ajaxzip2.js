@@ -133,10 +133,6 @@
       options.path = options.path.replace('%ZIP%', zip3);
       cacheDigit = 3;
     }
-    else {
-      options.path = options.path + 'zip-' + zip3 + '.json';
-      cacheDigit = 3;
-    }
 
     // 郵便番号でキャッシュがあるかどうかをチェックして
     // キャッシュがあればキャッシュから、なければJSONを取得する
@@ -325,7 +321,7 @@
     /**
      * 住所JSONデータがあるパスを指定
      */
-    path: '/ajaxzip2/data/',
+    path: '/ajaxzip2/data/zip-%ZIP%.json',
     /**
      * 住所データの種別を指定
      */

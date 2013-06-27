@@ -93,15 +93,8 @@
 
     // 郵便番号を取得
     zip = '';
-    this.each(function() {
-      if ($(this).is(':text')) {
-        zip += $(this).val();
-      }
-      else {
-        zip += $(this).text();
-      }
-    });
-    zip  = zip.replace(/[^0-9]/g, '');
+    this.each(function() { zip += get($(this)); });
+    zip = zip.replace(/[^0-9]/g, '');
 
     // 郵便番号が7桁に足りなかったら処理しない
     if (zip.length < 7) {
@@ -290,13 +283,24 @@
     prev = zip + get(prefElement) + get(cityElement) + get(areaElement) + get(streetElement);
   }
 
+  /**
+   * 要素がテキスト要素かどうかを判定します。
+   *
+   * @param object element 要素
+   * @return boolean テキスト要素であればtrue
+   */
+  function isTextable(element)
+  {
+    return !(element.is(':text') || element.is('select') || element.is(':hidden'));
+  }
+
   function set(element, value)
   {
     if (element && element.length > 0) {
-      if (element.is(':text') || element.is('select')) {
-        element.val(value);
-      } else {
+      if (isTextable(element)) {
         element.text(value);
+      } else {
+        element.val(value);
       }
     }
   }
@@ -304,10 +308,10 @@
   function get(element)
   {
     if (element && element.length > 0) {
-      if (element.is(':text') || element.is('select')) {
-        return element.val();
-      } else {
+      if (isTextable(element)) {
         return element.text();
+      } else {
+        return element.val();
       }
     }
 

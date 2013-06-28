@@ -5,7 +5,7 @@ $(document).ready(function() {
     if (name.name == 'JSONP形式での自動補完') {
       $.fn.zip2addr.defaultOptions.type   = 'jsonp';
       $.fn.zip2addr.defaultOptions.path   = 'jsonp/data001.js';
-      $.fn.zip2addr.defaultOptions.callback = function(data) {
+      $.fn.zip2addr.defaultOptions.load = function(data) {
         var result = {};
         for (var key in data) {
           var z = data[key];
@@ -18,7 +18,7 @@ $(document).ready(function() {
     else {
       $.fn.zip2addr.defaultOptions.type   = 'json';
       $.fn.zip2addr.defaultOptions.path   = '/ajaxzip2/data/zip-%ZIP3%.json';
-      $.fn.zip2addr.defaultOptions.callback = null;
+      $.fn.zip2addr.defaultOptions.load = null;
     }
   });
 

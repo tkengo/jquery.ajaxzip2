@@ -160,8 +160,8 @@
   function _zip2addr(data)
   {
     // ユーザー定義コールバック関数の呼び出し
-    if (typeof options.callback == 'function') {
-      data = options.callback(data);
+    if (typeof options.load == 'function') {
+      data = options.load(data);
     }
 
     // 補完処理
@@ -365,6 +365,6 @@
     /**
      * 住所データロード時に呼ばれるコールバック関数を指定
      */
-    callback: null
+    load: null
   };
 })(jQuery);

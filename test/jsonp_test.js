@@ -17,7 +17,7 @@ $(document).ready(function() {
     }
     else {
       $.fn.zip2addr.defaultOptions.type   = 'json';
-      $.fn.zip2addr.defaultOptions.path   = '/ajaxzip2/data/zip-%ZIP%.json';
+      $.fn.zip2addr.defaultOptions.path   = '/ajaxzip2/data/zip-%ZIP3%.json';
       $.fn.zip2addr.defaultOptions.callback = null;
     }
   });

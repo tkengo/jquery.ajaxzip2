@@ -122,8 +122,8 @@
       options.path = options.path.replace('%ZIP7%', zip);
       cacheDigit = 7;
     }
-    else if (options.path.indexOf('%ZIP%') > -1) {
-      options.path = options.path.replace('%ZIP%', zip3);
+    else if (options.path.indexOf('%ZIP3%') > -1) {
+      options.path = options.path.replace('%ZIP3%', zip3);
       cacheDigit = 3;
     }
 
@@ -325,7 +325,7 @@
     /**
      * 住所JSONデータがあるパスを指定
      */
-    path: '/ajaxzip2/data/zip-%ZIP%.json',
+    path: '/ajaxzip2/data/zip-%ZIP3%.json',
     /**
      * 住所データの種別を指定
      */

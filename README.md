@@ -89,10 +89,11 @@ $('#zip').zip2addr({
 
 ## パスを指定する
 
-API 仕様を読んで、パスを設定します。郵便番号の部分は `%ZIP3%` のプレースホルダを利用します。またコールバック関数の名前も同時に指定しておきます。
+API 仕様を読んで、パスを設定します。郵便番号の部分は `%ZIP3%` のプレースホルダを利用します。またコールバック関数の名前も同時に指定しておきます。データ種別も `jsonp` を選択しておきます。
 
 ```javascript
 $.fn.zip2addr.defaultOptions.path = 'http://api.postalcode.jp/v1/zipsearch?zipcode=%ZIP3%&callback=zip2addr';
+$.fn.zip2addr.defaultOptions.type = 'jsonp';
 ```
 
 ## 住所データの形式を理解する
@@ -178,6 +179,7 @@ $('#zip').zip2addr();
 ```javascript
 $('#zip').zip2addr({
   path: 'http://api.postalcode.jp/v1/zipsearch?zipcode=%ZIP3%&callback=zip2addr',
+  type: 'jsonp',
   load: function(data) {
     ...
   }

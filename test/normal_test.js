@@ -142,13 +142,17 @@ $(document).ready(function() {
     equal(callCount, 1, '変更が無いのでJSONデータ取得は1度しか呼ばれていない');
   });
 
+  module('キャッシュ周りの動作');
+
   test('キャッシュデータから住所を取得する', function() {
     var callCount = 0;
     var o = $.getJSON;
     $.getJSON = function(url, callback) {
       callCount++;
-      callback({ "2000000":[11, "テスト市1テスト町2","テスト"] });
-      callback({ "2000001":[11, "テスト市1テスト町2","テスト"] });
+      callback({
+        "2000000":[11, "テスト市1テスト町2","テスト"],
+        "2000001":[11, "テスト市1テスト町2","テスト"]
+      });
     };
 
     $('#zip').val('2000000').zip2addr();
@@ -157,5 +161,26 @@ $(document).ready(function() {
     $.getJSON = o;
 
     equal(callCount, 1, '郵便番号の上3桁でキャッシュされているのでJSONデータ取得は1度しか呼ばれていない');
+  });
+
+  test('住所データをキャッシュしない', function() {
+    var callCount = 0;
+    var o = $.getJSON;
+    $.getJSON = function(url, callback) {
+      callCount++;
+      callback({
+        "4000002":[11, "テスト市2テスト町3","テスト4"],
+        "4000003":[11, "テスト市2テスト町3","テスト5"]
+      });
+    };
+
+    $.fn.zip2addr.defaultOptions.cache = false;
+    $('#zip').val('4000002').zip2addr();
+    $('#zip').val('4000003').zip2addr();
+    $.fn.zip2addr.defaultOptions.cache = true;
+
+    $.getJSON = o;
+
+    equal(callCount, 2, 'キャッシュされてないのでJSONデータ取得は2度呼ばれている');
   });
 });

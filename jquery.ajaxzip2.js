@@ -114,16 +114,14 @@
       return this;
     }
 
-    // 郵便番号の上3桁を取り出す
-    var zip3 = zip.substr(0, 3);
-
     // URLに郵便番号が含まれていれば置換する
     if (options.path.indexOf('%ZIP7%') > -1) {
       options.path = options.path.replace('%ZIP7%', zip);
       cacheDigit = 7;
     }
     else if (options.path.indexOf('%ZIP3%') > -1) {
-      options.path = options.path.replace('%ZIP3%', zip3);
+      options.path = options.path.replace('%ZIP3%', zip.substr(0, 3));
+      options.path = options.path.replace('%ZIP4%', zip.substr(3, 4));
       cacheDigit = 3;
     }
 

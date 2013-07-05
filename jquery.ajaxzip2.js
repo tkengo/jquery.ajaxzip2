@@ -128,7 +128,7 @@
     // 郵便番号でキャッシュがあるかどうかをチェックして
     // キャッシュがあればキャッシュから、なければJSONを取得する
     var data = CACHE[zip.substr(0, cacheDigit)];
-    if (data) {
+    if (data && options.cache) {
       jsonLoadSuccessCallback(data);
     }
     else {
@@ -336,6 +336,10 @@
      * JSONPのコールバック関数名を指定
      */
     name: 'zip2addr',
+    /**
+     * 郵便番号データをキャッシュするかどうかを指定
+     */
+    cache: true,
     /**
      * 都道府県をセットする要素を指定
      */

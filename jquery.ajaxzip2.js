@@ -271,7 +271,10 @@
     }
 
     // フォーカスする要素があればフォーカスしておく
-    if (focusElement) {
+    if (options.focus) {
+      focusElement = $(options.focus);
+    }
+    if (focusElement && options.focus !== false) {
       focusElement.focus();
       focusElement.select();
     }
@@ -340,6 +343,10 @@
      * 郵便番号データをキャッシュするかどうかを指定
      */
     cache: true,
+    /**
+     * 補完処理が完了した後にフォーカスする要素を指定
+     */
+    focus: '',
     /**
      * 都道府県をセットする要素を指定
      */
